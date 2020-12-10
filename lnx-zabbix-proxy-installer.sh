@@ -24,16 +24,16 @@ apt update
 
 #install zabbix-proxy and zabbix-get package
 echo $(tput setaf 2)Installing package zabbix-proxy$(tput sgr0)
-apt -y install zabbix-proxy-mysql zabbix-get
+apt -y install zabbix-proxy-mysql
 
 #generate random password
 randomPassword=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})
 
 #installing mysql
-apt -y install mariadb-common mariadb-server mariadb-client
+#apt -y install mariadb-common mariadb-server mariadb-client
 
-systemctl start mariadb
-systemctl enable mariadb
+#systemctl start mariadb
+#systemctl enable mariadb
 
 mysql --execute="create database zabbix_proxy character set utf8 collate utf8_bin;"
 mysql --execute="grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';"
