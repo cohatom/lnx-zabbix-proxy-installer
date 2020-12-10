@@ -53,14 +53,14 @@ echo $(tput setaf 2)Stopping Zabbix Proxy to configure...$(tput sgr0)
 service zabbix-proxy stop
 
 #premaknemo originalen zabbix_proxy.conf file
-echo "Moving original zabbix_agent.conf to /etc/zabbix/zabbix_agent.conf.example just in case..."
+echo $(tput setaf 2)"Moving original zabbix_agent.conf to /etc/zabbix/zabbix_agent.conf.example just in case..."$(tput sgr0)
 mv /etc/zabbix/zabbix_proxy.conf /etc/zabbix/zabbix_proxy.conf.example
 
 #kreira nov zabbix_proxy.conf file z nasimi nastavitvami
 echo $(tput setaf 2)Creating new Zabbix Agent config file...$(tput sgr0)
 cat > /etc/zabbix/zabbix_proxy.conf << EOF
 ProxyMode=0
-Server=$(zabbixServerAddress)
+Server=${zabbixServerAddress}
 Hostname=<vpiši hostname proxy-a, ki mora biti brez presledkov in se mora ujemati s hostnamom strežnika>
 LogFile=/var/log/zabbix/zabbix_proxy.log
 LogFileSize=50
@@ -70,7 +70,7 @@ PidFile=/var/run/zabbix/zabbix_proxy.pid
 SocketDir=/var/run/zabbix
 DBName=zabbixproxy
 DBUser=zabbix
-DBPassword=$(randomPassword)
+DBPassword=${randomPassword}
 ProxyOfflineBuffer=48
 ConfigFrequency=60
 SNMPTrapperFile=/var/log/snmptrap/snmptrap.log
@@ -91,7 +91,7 @@ service zabbix-proxy start
 
 echo "Your MySQL zabbix user password is: $(tput setaf 2)$randomPassword"
 
-echo "Do you want to secure your MySQL installation? (y/n)?"
+echo "Do you want to secure your MySQL installation? (y/n)?"$(tput sgr0)
 read yesnoSecureMysql
 if [ $yesnoSecureMysql -eq y ]
 then
