@@ -38,6 +38,8 @@ systemctl enable mariadb
 mysql --execute="create database zabbix_proxy character set utf8 collate utf8_bin;"
 mysql --execute="grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';"
 
+apt -y install zabbix-proxy-mysql
+
 zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p'${randomPassword}' zabbix_proxy
 
 #nastavi zabbix proxy da se zazene ob rebootu
