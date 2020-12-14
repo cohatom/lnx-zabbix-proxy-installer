@@ -3,14 +3,18 @@
 #Verzija: 0.2
 #Izdelano: 12/2020
 #
-#Colors curtesy of: https://stackoverflow.com/a/20983251
+#Colors courtesy of: https://stackoverflow.com/a/20983251
+#IP checking code courtesy of: https://stackoverflow.com/a/13778973
 
 
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
 echo $(tput setaf 2)"Vnesi IP naslov Zabbix strežnika in pritistni [ENTER]:"$(tput sgr0)
 read -p "Zabbix server IP address: " zabbixServerAddress
-if [[ $zabbixServerAddress =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+re='^(0*(1?[0-9]{1,2}|2([0-4][0-9]|5[0-5]))\.){3}'
+re+='0*(1?[0-9]{1,2}|2([‌​0-4][0-9]|5[0-5]))$'
+
+if [[ $zabbixServerAddress =~ $re ]]; then
   echo "success"
 else
   echo "fail"
