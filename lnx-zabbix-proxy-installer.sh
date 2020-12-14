@@ -46,7 +46,7 @@ MYSQL_SCRIPT
 
 apt -y install zabbix-proxy-mysql
 
-zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p${randomPassword} zabbix_proxy
+zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p$randomPassword zabbix_proxy
 
 #nastavi zabbix proxy da se zazene ob rebootu
 echo $(tput setaf 2)Setting Zabbix proxy run at startup...$(tput sgr0)
