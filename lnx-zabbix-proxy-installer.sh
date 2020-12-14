@@ -2,7 +2,7 @@
 #skripta za namestitev Zabbix Proxy na Ubuntu 20.04
 #Verzija: 0.2
 #Izdelano: 12/2020
-
+#
 #Colors curtesy of: https://stackoverflow.com/a/20983251
 
 zabbixServerAddress=""
