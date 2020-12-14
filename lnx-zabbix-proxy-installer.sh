@@ -68,7 +68,7 @@ echo $(tput setaf 2)Creating new Zabbix Proxy config file...$(tput sgr0)
 cat > /etc/zabbix/zabbix_proxy.conf << EOF
 ProxyMode=0
 Server=${zabbixServerAddress}
-Hostname=${hostname}
+Hostname=${proxyHostname}
 LogFile=/var/log/zabbix/zabbix_proxy.log
 LogFileSize=50
 EnableRemoteCommands=1
