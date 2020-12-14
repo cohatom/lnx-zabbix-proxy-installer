@@ -8,7 +8,7 @@
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
 echo "Vnesi IP naslov Zabbix strežnika in pritistni [ENTER]:"
-read -p zabbixServerAddress
+read -p "Zabbix server IP address:" zabbixServerAddress
 
 #download .deb, save filename to $downloadFilename
 echo $(tput setaf 2)Downloading sources...$(tput sgr0)
