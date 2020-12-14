@@ -5,10 +5,16 @@
 #
 #Colors curtesy of: https://stackoverflow.com/a/20983251
 
+
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
 echo $(tput setaf 2)"Vnesi IP naslov Zabbix strežnika in pritistni [ENTER]:"$(tput sgr0)
 read -p "Zabbix server IP address: " zabbixServerAddress
+if [[ $zabbixServerAddress =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "success"
+else
+  echo "fail"
+fi
 
 #download .deb, save filename to $downloadFilename
 echo $(tput setaf 2)Downloading sources...$(tput sgr0)
@@ -44,12 +50,12 @@ MYSQL_SCRIPT
 
 apt-get -y install zabbix-proxy-mysql > /dev/null
 
-echo $(tput setaf 2)"Importing Zabbix Proxy schema into MySQL..."$(tput sgr0)
+echo $(tput setaf 2)"Importing Zabbix Proxy schema into MySQL (this can take a while)..."$(tput sgr0)
 zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p$randomPassword zabbix_proxy
 
 #nastavi zabbix proxy da se zazene ob rebootu
-echo $(tput setaf 2)Setting Zabbix proxy to run at startup...$(tput sgr0)
-systemctl start zabbix-proxy.service > /dev/null
+echo $(tput setaf 2)Setting Zabbix Proxy service to run at startup...$(tput sgr0)
+systemctl start zabbix-proxy.service >  /dev/null
 systemctl enable zabbix-proxy.service > /dev/null
 
 #pridobi hostname serverja za vpis v config file
@@ -100,7 +106,7 @@ echo "Your MySQL zabbix user password is: $(tput setaf 2)$randomPassword"
 
 echo "Do you want to secure your MySQL installation? (y/n)?"$(tput sgr0)
 read yesnoSecureMysql
-if [ $yesnoSecureMysql -eq y ]
+if [ $yesnoSecureMysql = y ]
 then
         mysql_secure_installation
 else
