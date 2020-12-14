@@ -37,7 +37,7 @@ systemctl enable mariadb
 
 mysql -uroot <<MYSQL_SCRIPT
 create database zabbix_proxy character set utf8 collate utf8_bin;
-grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';"
+grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
 
