@@ -18,7 +18,7 @@ if expr "$zabbixServerAddress" : '[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0
       exit 1
     fi
   done
-  echo $(tput setab 2)$(tput setaf 7)"($zabbixServerAddress) - IP is valid. Moving on."$(tput sgr0)
+  echo $(tput setab 2)$(tput setaf 7)$(tput bold)"($zabbixServerAddress) - IP is valid. Moving on."$(tput sgr0)
 else
   echo $(tput setab 1)$(tput setaf 7)"($zabbixServerAddress) - IP format is invalid"$(tput sgr0)
   exit 1
@@ -111,10 +111,10 @@ echo $(tput setaf 2)Starting Zabbix Proxy service...$(tput sgr0)
 service zabbix-proxy start > /dev/null
 
 echo "
-#############
-Your MySQL zabbix user password is: $(tput setaf 2)$randomPassword
-Write it down!
-#############
+#######################################
+Your MySQL zabbix user password is: $(tput setaf 2)$(tput bold)$randomPassword
+$(tput bold)Write it down!
+$(tput sgr0)#######################################
 "
 
 echo "Do you want to secure your MySQL installation? (y/n)?"$(tput sgr0)
