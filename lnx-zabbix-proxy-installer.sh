@@ -7,8 +7,8 @@
 
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
-echo "Vnesi IP naslov Zabbix strežnika in pritistni [ENTER]:"
-read -p "Zabbix server IP address:" zabbixServerAddress
+echo $(tput setaf 2)"Vnesi IP naslov Zabbix strežnika in pritistni [ENTER]:"$(tput sgr0)
+read -p "Zabbix server IP address: " zabbixServerAddress
 
 #download .deb, save filename to $downloadFilename
 echo $(tput setaf 2)Downloading sources...$(tput sgr0)
@@ -19,19 +19,19 @@ echo $(tput setaf 2)Installing sources...$(tput sgr0)
 dpkg -i $downloadFilename > /dev/null
 
 #update apt cache
-echo $(tput setaf 2)Installing package zabbix-proxy...$(tput sgr0)
-apt update > /dev/null
+echo $(tput setaf 2)Running apt-get update...$(tput sgr0)
+apt-get update > /dev/null
 
 #install zabbix-proxy and zabbix-get package
 echo $(tput setaf 2)Installing package zabbix-proxy-mysql...$(tput sgr0)
-apt -y install zabbix-proxy-mysql > /dev/null
+apt-get -y install zabbix-proxy-mysql > /dev/null
 
 #generate random password
 randomPassword=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})
 
 #installing mysql
 echo $(tput setaf 2)Installing package mariadb-common, mariadb-server, mariadb-client...$(tput sgr0)
-apt -y install mariadb-common mariadb-server mariadb-client > /dev/null
+apt-get -y install mariadb-common mariadb-server mariadb-client > /dev/null
 
 systemctl start mariadb > /dev/null
 systemctl enable mariadb > /dev/null
@@ -42,9 +42,9 @@ grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${rand
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
 
-apt -y install zabbix-proxy-mysql > /dev/null
+apt-get -y install zabbix-proxy-mysql > /dev/null
 
-echo $(tput setaf 2"Importing Zabbix Proxy schema into MySQL..."$(tput sgr0)
+echo $(tput setaf 2)"Importing Zabbix Proxy schema into MySQL..."$(tput sgr0)
 zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p$randomPassword zabbix_proxy
 
 #nastavi zabbix proxy da se zazene ob rebootu
