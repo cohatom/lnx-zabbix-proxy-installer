@@ -9,15 +9,19 @@
 
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
-echo $(tput setaf 2)"Vnesi IP naslov Zabbix strežnika in pritistni [ENTER]:"$(tput sgr0)
+echo $(tput setaf 2)"Enter Zabbix Proxy address and press [ENTER]:"$(tput sgr0)
 read -p "Zabbix server IP address: " zabbixServerAddress
-re='^(0*(1?[0-9]{1,2}|2([0-4][0-9]|5[0-5]))\.){3}'
-re+='0*(1?[0-9]{1,2}|2([‌​0-4][0-9]|5[0-5]))$'
-
-if [[ $zabbixServerAddress =~ $re ]]; then
-  echo "success"
+if expr "$zabbixServerAddress" : '[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+  for i in 1 2 3 4; do
+    if [ $(echo "$zabbixServerAddress" | cut -d. -f$i) -gt 255 ]; then
+      echo $(tput setab 1)$(tput setaf 7)"($zabbixServerAddress) - IP can not be greater than 255"$(tput sgr0)
+      exit 1
+    fi
+  done
+  echo $(tput setab 2)$(tput setaf 7)"($zabbixServerAddress) - IP is valid. Moving on."$(tput sgr0)
 else
-  echo "fail"
+  echo $(tput setab 1)$(tput setaf 7)"($zabbixServerAddress) - IP format is invalid"$(tput sgr0)
+  exit 1
 fi
 
 #download .deb, save filename to $downloadFilename
@@ -106,7 +110,12 @@ EOF
 echo $(tput setaf 2)Starting Zabbix Proxy service...$(tput sgr0)
 service zabbix-proxy start > /dev/null
 
-echo "Your MySQL zabbix user password is: $(tput setaf 2)$randomPassword"
+echo "
+#############
+Your MySQL zabbix user password is: $(tput setaf 2)$randomPassword
+Write it down!
+#############
+"
 
 echo "Do you want to secure your MySQL installation? (y/n)?"$(tput sgr0)
 read yesnoSecureMysql
