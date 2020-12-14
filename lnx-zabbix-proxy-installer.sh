@@ -35,8 +35,14 @@ apt -y install mariadb-common mariadb-server mariadb-client
 systemctl start mariadb
 systemctl enable mariadb
 
-mysql --execute="create database zabbix_proxy character set utf8 collate utf8_bin;"
-mysql --execute="grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';"
+mysql -uroot <<MYSQL_SCRIPT
+create database zabbix_proxy character set utf8 collate utf8_bin;
+grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';"
+FLUSH PRIVILEGES;
+MYSQL_SCRIPT
+
+#mysql --execute="create database zabbix_proxy character set utf8 collate utf8_bin;"
+#mysql --execute="grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';"
 
 apt -y install zabbix-proxy-mysql
 
