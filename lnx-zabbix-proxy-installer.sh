@@ -45,7 +45,8 @@ randomPassword=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})
 
 #installing mysql
 echo $(tput setaf 2)Installing package mariadb-common, mariadb-server, mariadb-client...$(tput sgr0)
-apt-get -y install mariadb-common mariadb-server mariadb-client > /dev/null
+apt-get -y install mariadb-common mariadb-server-10.3 mariadb-client-10.3 > /dev/null
+#apt-get -y install mariadb-common mariadb-server mariadb-client > /dev/null
 
 systemctl start mariadb > /dev/null
 systemctl enable mariadb > /dev/null
