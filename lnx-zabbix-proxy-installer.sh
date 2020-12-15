@@ -9,8 +9,7 @@
 
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
-#echo $(tput setaf 2)"Enter Zabbix Proxy address and press [ENTER]:"$(tput sgr0)
-read -p $(tput setaf 2)"Enter Zabbix Proxy address and press [ENTER]: "$(tput sgr0) zabbixServerAddress
+read -p $(tput setaf 2)"Enter Zabbix $(tput bold)Server$(tput sgr0)$(tput setaf 2) address and press [ENTER]: "$(tput sgr0) zabbixServerAddress
 if expr "$zabbixServerAddress" : '[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
   for i in 1 2 3 4; do
     if [ $(echo "$zabbixServerAddress" | cut -d. -f$i) -gt 255 ]; then
@@ -112,10 +111,10 @@ echo $(tput setaf 2)Starting Zabbix Proxy service...$(tput sgr0)
 service zabbix-proxy start > /dev/null
 
 echo "
-#######################################
+##############################################################################
 Your MySQL zabbix user password is: $(tput setaf 2)$(tput bold)$randomPassword
 $(tput bold)Write it down!
-$(tput sgr0)#######################################
+$(tput sgr0)##############################################################################
 "
 
 echo "Do you want to secure your MySQL installation? (y/n)?"$(tput sgr0)
