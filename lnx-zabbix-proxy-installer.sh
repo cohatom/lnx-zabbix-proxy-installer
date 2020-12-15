@@ -110,6 +110,15 @@ EOF
 echo $(tput setaf 2)Starting Zabbix Proxy service...$(tput sgr0)
 service zabbix-proxy start > /dev/null
 
+systemctl is-active --quiet zabbix-proxy
+if [ $? = 0 ]
+then
+        echo $(tput setaf 2)Zabbix Proxy service is RUNNING$(tput sgr0)
+else
+        echo "$(tput setaf 1)Oh no... Zabbix Proxy service is NOT running. Exiting script!"$(tput sgr0)
+        exit 0
+fi
+
 echo "
 ##############################################################################
 Your MySQL zabbix user password is: $(tput setaf 2)$(tput bold)$randomPassword
