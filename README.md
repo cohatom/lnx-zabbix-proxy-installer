@@ -15,4 +15,4 @@ You need to use your username and password as repository is private for the time
 ## To-DO
 
 * Pick proxy version you want to install
-* At the end check if service is running
+* ~~At the end check if service is running~~
