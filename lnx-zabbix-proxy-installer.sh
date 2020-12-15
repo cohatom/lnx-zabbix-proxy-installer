@@ -9,8 +9,8 @@
 
 zabbixServerAddress=""
 downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
-echo $(tput setaf 2)"Enter Zabbix Proxy address and press [ENTER]:"$(tput sgr0)
-read -p "Zabbix server IP address: " zabbixServerAddress
+#echo $(tput setaf 2)"Enter Zabbix Proxy address and press [ENTER]:"$(tput sgr0)
+read -p $(tput setaf 2)"Enter Zabbix Proxy address and press [ENTER]: "$(tput sgr0) zabbixServerAddress
 if expr "$zabbixServerAddress" : '[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
   for i in 1 2 3 4; do
     if [ $(echo "$zabbixServerAddress" | cut -d. -f$i) -gt 255 ]; then
