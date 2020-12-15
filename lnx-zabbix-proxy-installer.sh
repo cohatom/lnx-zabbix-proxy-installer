@@ -126,8 +126,7 @@ $(tput bold)Write it down!
 $(tput sgr0)##############################################################################
 "
 
-echo "Do you want to secure your MySQL installation? (y/n)?"$(tput sgr0)
-read yesnoSecureMysql
+read -p $(tput setaf 2)"Do you want to secure your MySQL installation? (y/n) "$(tput sgr0) yesnoSecureMysql
 if [ $yesnoSecureMysql = y ]
 then
         mysql_secure_installation
