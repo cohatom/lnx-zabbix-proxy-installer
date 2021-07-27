@@ -1,14 +1,14 @@
 #!/bin/bash
 #skripta za namestitev Zabbix Proxy na Ubuntu 20.04
-#Verzija: 0.2
-#Izdelano: 12/2020
+#Verzija: 0.3
+#Izdelano: 07/2021
 #
 #Colors courtesy of: https://stackoverflow.com/a/20983251
 #IP checking code courtesy of: https://stackoverflow.com/a/13778973
 
 
 zabbixServerAddress=""
-downloadFileUrl="https://repo.zabbix.com/zabbix/5.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.2-1+ubuntu$(lsb_release -rs)_all.deb"
+downloadFileUrl="https://repo.zabbix.com/zabbix/5.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.4-1+ubuntu$(lsb_release -rs)_all.deb"
 read -p $(tput setaf 2)"Enter Zabbix $(tput bold)Server$(tput sgr0)$(tput setaf 2) address and press [ENTER]: "$(tput sgr0) zabbixServerAddress
 if expr "$zabbixServerAddress" : '[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
   for i in 1 2 3 4; do
@@ -37,7 +37,7 @@ apt-get update > /dev/null
 
 #install zabbix-proxy and zabbix-get package
 echo $(tput setaf 2)Installing package zabbix-proxy-mysql...$(tput sgr0)
-apt-get -y install zabbix-proxy-mysql > /dev/null
+apt-get -y install zabbix-proxy-mysql zabbix-sql-scripts zabbix-get > /dev/null
 
 #generate random password
 randomPassword=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})

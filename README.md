@@ -12,6 +12,11 @@ You need to use your username and password as repository is private for the time
 4. ./lnx-zabbix-proxy-installer.sh
 5. At the prompt enter the IP address of Zabbix Server
 
+
+## Changelog
+27.7.2021
+* Updated script to latest Zabbix version 5.4
+* Added installation of zabbix-get and zabbix-sql-scripts (new package in version 5.4)
 ## To-DO
 
 * Pick proxy version you want to install
