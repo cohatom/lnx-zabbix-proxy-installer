@@ -54,12 +54,16 @@ mysql -uroot <<MYSQL_SCRIPT
 create database zabbix_proxy character set utf8 collate utf8_bin;
 grant all privileges on zabbix_proxy.* to zabbix@localhost identified by '${randomPassword}';
 FLUSH PRIVILEGES;
+set global innodb_strict_mode='OFF';
 MYSQL_SCRIPT
 
 apt-get -y install zabbix-proxy-mysql > /dev/null
 
 echo $(tput setaf 2)"Importing Zabbix Proxy schema into MySQL (this can take a while)..."$(tput sgr0)
-zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p$randomPassword zabbix_proxy
+zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | mysql -uzabbix -p$randomPassword zabbix_proxy
+
+#stara pot pred verzijo 5.4
+#zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p$randomPassword zabbix_proxy
 
 #nastavi zabbix proxy da se zazene ob rebootu
 echo $(tput setaf 2)Setting Zabbix Proxy service to run at startup...$(tput sgr0)
