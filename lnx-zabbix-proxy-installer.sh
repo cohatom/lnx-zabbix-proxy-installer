@@ -60,7 +60,7 @@ MYSQL_SCRIPT
 #apt-get -y install zabbix-proxy-mysql > /dev/null
 
 echo $(tput setaf 2)"Importing Zabbix Proxy schema into MySQL (this can take a while)..."$(tput sgr0)
-zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p'$randomPassword' zabbix_proxy
+zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p$randomPassword zabbix_proxy
 #zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | mysql -uzabbix -p$randomPassword zabbix_proxy
 #zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p zabbix
 #zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p'zabbixDBpass' zabbix_proxy
