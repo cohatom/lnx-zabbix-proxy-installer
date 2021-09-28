@@ -1,7 +1,7 @@
 #!/bin/bash
-#skripta za namestitev Zabbix Proxy na Ubuntu 20.04
-#Verzija: 0.3
-#Izdelano: 07/2021
+#Automatic Zabbix Proxy installer for Ubuntu 20.04
+#Verzija: 0.4
+#Izdelano: 09/2021
 #
 #Colors courtesy of: https://stackoverflow.com/a/20983251
 #IP checking code courtesy of: https://stackoverflow.com/a/13778973
@@ -45,7 +45,7 @@ randomPassword=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})
 #installing mysql
 echo $(tput setaf 2)Installing package mariadb-common, mariadb-server, mariadb-client...$(tput sgr0)
 apt-get -y install mariadb-common mariadb-server-10.3 mariadb-client-10.3 > /dev/null
-#apt-get -y install mariadb-common mariadb-server mariadb-client > /dev/null
+
 
 systemctl start mariadb > /dev/null
 systemctl enable mariadb > /dev/null
@@ -57,33 +57,26 @@ FLUSH PRIVILEGES;
 set global innodb_strict_mode='OFF';
 MYSQL_SCRIPT
 
-#apt-get -y install zabbix-proxy-mysql > /dev/null
-
 echo $(tput setaf 2)"Importing Zabbix Proxy schema into MySQL (this can take a while)..."$(tput sgr0)
 zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p$randomPassword zabbix_proxy
-#zcat /usr/share/doc/zabbix-sql-scripts/mysql/create.sql.gz | mysql -uzabbix -p$randomPassword zabbix_proxy
-#zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p zabbix
-#zcat /usr/share/doc/zabbix-sql-scripts/mysql/schema.sql.gz | mysql -uzabbix -p'zabbixDBpass' zabbix_proxy
-#stara pot pred verzijo 5.4
-#zcat /usr/share/doc/zabbix-proxy-mysql*/schema.sql.gz |  mysql -uzabbix -p$randomPassword zabbix_proxy
 
-#nastavi zabbix proxy da se zazene ob rebootu
+#Start zabbix proxy at startup
 echo $(tput setaf 2)Setting Zabbix Proxy service to run at startup...$(tput sgr0)
 systemctl start zabbix-proxy.service >  /dev/null
 systemctl enable zabbix-proxy.service > /dev/null
 
-#pridobi hostname serverja za vpis v config file
+#Get hostname
 proxyHostname=$(hostname)
 
-#ustavi agenta preden urejamo .conf file
+#Stop agent before editing conf file
 echo $(tput setaf 2)Stopping Zabbix Proxy to configure...$(tput sgr0)
 service zabbix-proxy stop > /dev/null
 
-#premaknemo originalen zabbix_proxy.conf file
+#Backup original conf file
 echo $(tput setaf 2)"Moving original zabbix_proxy.conf to /etc/zabbix/zabbix_proxy.conf.example just in case..."$(tput sgr0)
 mv /etc/zabbix/zabbix_proxy.conf /etc/zabbix/zabbix_proxy.conf.example
 
-#kreira nov zabbix_proxy.conf file z nasimi nastavitvami
+#Create new conf file
 echo $(tput setaf 2)Creating new Zabbix Proxy config file...$(tput sgr0)
 cat > /etc/zabbix/zabbix_proxy.conf << EOF
 ProxyMode=0
@@ -112,7 +105,7 @@ StartPollersUnreachable=20
 CacheSize=1G
 EOF
 
-#zazene proxy nazaj
+#Restart proxy
 echo $(tput setaf 2)Starting Zabbix Proxy service...$(tput sgr0)
 service zabbix-proxy start > /dev/null
 
