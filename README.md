@@ -6,7 +6,7 @@ Automatic Zabbix Proxy installer for **Ubuntu 20.04**
 
 You need to use your username and password as repository is private for the time being.
 
-1. git clone <https://username:"password"@github.com/cohatom/lnx-zabbix-proxy-installer.git>
+1. git clone https://github.com/cohatom/lnx-zabbix-proxy-installer.git
 2. cd lnx-zabbix-proxy-installer
 3. chmod +x lnx-proxy-agent-installer.sh
 4. ./lnx-zabbix-proxy-installer.sh
